@@ -14,7 +14,7 @@ RSpec.describe "Merchants API", type: :request do
       expect(response.body).to eq('{"data":[]}')
     end
 
-    it "has keys" do 
+    it "has serialized content" do 
       expected = {
         id: "1",
         type: "merchant",
