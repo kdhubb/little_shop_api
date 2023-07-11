@@ -54,5 +54,7 @@ group :test do
   gem "simplecov", require: false
   gem "shoulda-matchers", "~> 5.0"
   gem "capybara"
+  gem 'factory_bot_rails', '~> 6.2', '>= 6.2.0'
+  gem 'faker', '~> 2.18', '>= 2.18.0'
 end 
 
