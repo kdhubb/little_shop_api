@@ -1,4 +1,5 @@
 class Api::V1::ItemsController < ApplicationController 
+  before_action :verify_merchant, only: [:update, :create]
   def index 
     render json: ItemSerializer.new(Item.all)
   end
@@ -27,5 +28,13 @@ class Api::V1::ItemsController < ApplicationController
   private 
   def item_params
     params.permit(:name, :description, :unit_price, :merchant_id)
+  end
+
+  def verify_merchant
+    if Merchant.exists?(params[:item][:merchant_id]) || params[:item][:merchant_id] == nil
+      update
+    else
+      render json: {error: "Merchant must exist"}, status: :not_found
+    end
   end
 end
