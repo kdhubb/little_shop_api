@@ -22,9 +22,17 @@ RSpec.describe "Create Item Request", type: :request do
       expect(new_item.unit_price).to eq(item_data[:unit_price])
       expect(new_item.merchant_id).to eq(item_data[:merchant_id])
     end
-
+    
     it "rejects invalid data" do 
-
+      item_data = {
+        "description": "Backpack for your dog to carry their own stuff.",
+        "unit_price": 5.00,
+        "merchant_id": @merchant.id
+      }
+  
+      post "/api/v1/items", params: item_data
+  
+      expect(response.code).to eq("422")
     end
   end
 end
