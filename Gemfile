@@ -42,6 +42,7 @@ group :development, :test do
   gem "rspec-rails" 
   gem "pry"
   gem "json"
+  gem "jsonapi-serializer"
 end
 
 group :development do
