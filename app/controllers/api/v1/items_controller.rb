@@ -15,6 +15,10 @@ class Api::V1::ItemsController < ApplicationController
       render json: item.errors, status: :unprocessable_entity
     end
   end
+
+  def update
+    render json: ItemSerializer.new(Item.update!(params[:id], item_params))
+  end
   
   def destroy
     render json: ItemSerializer.new(Item.destroy!(item_params))
