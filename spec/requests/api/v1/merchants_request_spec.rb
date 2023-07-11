@@ -5,6 +5,8 @@ RSpec.describe "Merchants API", type: :request do
     before(:each) do 
       get "/api/v1/merchants" 
       @merchants = JSON.parse(response.body, symbolize_names: true)
+      @merchants_response = File.read("./spec/fixtures/merchants_all.json")
+      @merchants_parsed = JSON.parse(@merchants_response, symbolize_names: true)
     end
 
     it "has a successful request" do
@@ -13,7 +15,14 @@ RSpec.describe "Merchants API", type: :request do
     end
 
     it "has keys" do 
-      expect(@merchants[:data].first).to eq("x")
+      expected = {
+        id: "1",
+        type: "merchant",
+        attributes: {
+          name: "Schroeder-Jerde"
+        }
+      }
+      expect(@merchants_parsed[:data].first).to eq(expected)
     end
   end
 end
