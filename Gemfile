@@ -47,6 +47,6 @@ group :development do
 end
 
 group :test do 
-  gem "simplecov" 
+  gem "simplecov", require: false
 end 
 
