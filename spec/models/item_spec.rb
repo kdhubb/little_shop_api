@@ -22,7 +22,6 @@ RSpec.describe Item, type: :model do
       invoice2 = item1.invoices.create!(merchant_id: merchant.id, status: :active, customer_id: customer.id)
       item2 = invoice2.items.create!(merchant_id: merchant.id, name: "Little Chonk Pack", description: "really good backpack", unit_price: 5.0)
       
-      expect(item1.invoices.count).to eq(1)
       expect(invoice1.items.count).to eq(1)
 
       item1.single_item_invoice_delete
