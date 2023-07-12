@@ -9,7 +9,7 @@ RSpec.describe "Destroy Item Request", type: :request do
 
       delete "/api/v1/items/#{item.id}"
       
-      expect(response).to be_successful
+      expect(response.code).to eq("204")
       expect(Item.count).to eq(0)
       expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
     end
