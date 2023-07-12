@@ -2,6 +2,6 @@ class Api::V1::MerchantItemsController < ApplicationController
 
   def index 
     render json: ItemSerializer.new(Merchant.find(params[:merchant_id]).items.errors)
-    render json: Merchant.find(params[:merchant_id]).errors, status: :not_found
+    # render json: Merchant.find(params[:merchant_id]).errors, status: :not_found
   end
 end

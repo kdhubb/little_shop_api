@@ -13,5 +13,11 @@ RSpec.describe "Destroy Item Request", type: :request do
       expect(Item.count).to eq(0)
       expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
     end
+
+    it "destroys invoice if no items left" do 
+      merchant = create(:merchant)
+      item = create(:item, merchant_id: merchant.id)
+      invoice = merchant.invoices.create!(merchant_id: merchant.id, )
+    end
   end
 end
