@@ -14,4 +14,9 @@ class Item < ApplicationRecord
       end
     end
   end
+
+  def self.case_insensitive_search(params)
+    where("LOWER(items.name) LIKE LOWER('%#{params}%')").order(name: :asc).first
+    
+  end
 end
