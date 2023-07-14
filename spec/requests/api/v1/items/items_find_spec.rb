@@ -46,7 +46,7 @@ RSpec.describe "Item Find/Search", type: :request do
     it "lists all partial matches" do 
       get "/api/v1/items/find_all?name=dog"
       items_parsed = JSON.parse(response.body, symbolize_names: true)
-
+      
       expect(response.code).to eq("200")
       expect(items_parsed[:data]).to be_an(Array)
       expect(items_parsed[:data].count).to eq(2)
@@ -58,7 +58,11 @@ RSpec.describe "Item Find/Search", type: :request do
     end
     
     it "returns no error when no results" do 
-      
+      get "/api/v1/items/find_all?name=asdjhgouy34789"
+      items_parsed = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response.code).to eq("200")
+      expect(items_parsed).to eq({data: []})
     end
     
     it "returns 400 with no paramater" do 
