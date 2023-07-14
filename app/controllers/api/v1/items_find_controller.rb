@@ -12,7 +12,7 @@ class Api::V1::ItemsFindController < ApplicationController
   private 
   def verify_params
     if params[:name] == ""
-      render json: {error: "No search paramater given"}, status: :bad_request
+      render json: ErrorSerializer.new("error").no_param_error, status: :bad_request
     end
   end
 end

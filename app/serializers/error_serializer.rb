@@ -13,4 +13,15 @@ class ErrorSerializer
         ]
       }
   end
+
+  def no_param_error
+    {
+      errors: [
+        {
+          status: "400",
+          title: @error = "No search paramater given"
+        }
+      ]
+    }
+  end
 end
