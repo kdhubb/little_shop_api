@@ -38,7 +38,7 @@ RSpec.describe "Item Find/Search", type: :request do
       @item_parsed = JSON.parse(response.body, symbolize_names: true)
       
       expect(response.code).to eq("200")
-      expect(@item_parsed).to eq("{data: nil}")
+      expect(@item_parsed).to eq({data: {}})
     end
   end
 end

@@ -2,7 +2,7 @@ class Api::V1::ItemsFindController < ApplicationController
   before_action :verify_params
   
   def show
-    item = Item.case_insensitive_search(params[:name])
+    item = Item.keyword_single(params[:name])
     if item
       render json: ItemSerializer.new(item)
     else
