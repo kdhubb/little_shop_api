@@ -28,11 +28,17 @@ RSpec.describe "Item Find/Search", type: :request do
     it "no params given, no match" do 
       get "/api/v1/items/find?name="
       @item_parsed = JSON.parse(response.body, symbolize_names: true)
-
+      
       expect(response.code).to eq("400")
       expect(@item_parsed[:errors].first).to be_a(Hash)
       expect(@item_parsed[:errors].first[:status]).to eq("400")
       expect(@item_parsed[:errors].first[:title]).to eq("No search paramater given")
+      
+      get "/api/v1/items/find?name=abcdefghi3927659hkhjg"
+      @item_parsed = JSON.parse(response.body, symbolize_names: true)
+      
+      expect(response.code).to eq("200")
+      expect(@item_parsed).to eq("{data: nil}")
     end
   end
 end

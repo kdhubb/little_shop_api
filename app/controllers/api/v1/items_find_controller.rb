@@ -1,8 +1,13 @@
 class Api::V1::ItemsFindController < ApplicationController
   before_action :verify_params
-
+  
   def show
-    render json: ItemSerializer.new(Item.case_insensitive_search(params[:name]))
+    item = Item.case_insensitive_search(params[:name])
+    if item
+      render json: ItemSerializer.new(item)
+    else
+      render json: { data: {} }
+    end
   end
 
   def index 
@@ -12,7 +17,7 @@ class Api::V1::ItemsFindController < ApplicationController
   private 
   def verify_params
     if params[:name] == ""
-      render json: ErrorSerializer.new("error").no_param_error, status: :bad_request
+      render json: ErrorSerializer.new("no_param").no_param_error, status: :bad_request
     end
   end
 end
