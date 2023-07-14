@@ -33,9 +33,9 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def verify_merchant
-    if Merchant.exists?(item_params[:merchant_id]) || item_params[:merchant_id] == nil
+    if item_params[:merchant_id] == nil
       update
-    else
+    elsif !Merchant.exists?(item_params[:merchant_id])
       render json: {error: "Merchant must exist"}, status: :not_found
     end
   end
