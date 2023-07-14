@@ -26,7 +26,10 @@ RSpec.describe "Item Find/Search", type: :request do
     end
 
     it "no params given, no match" do 
+      get "/api/v1/items/find?name="
+      @item_parsed = JSON.parse(response.body, symbolize_names: true)
 
+      expect(response.code).to eq(400)
     end
   end
 end
