@@ -41,4 +41,23 @@ RSpec.describe "Item Find/Search", type: :request do
       expect(@item_parsed).to eq({data: {}})
     end
   end
+
+  describe "find all items by fragment" do 
+    it "lists all partial matches" do 
+      get "/api/v1/items/find_all"
+    end
+    
+    it "returns no error when no results" do 
+      
+    end
+    
+    it "returns 400 with no paramater" do 
+      get "/api/v1/items/find_all"
+      @items = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response.code).to eq("400")
+      expect(@items[:errors].first[:status]).to eq("400")
+      expect(@items[:errors].first[:title]).to eq("No search paramater given")
+    end
+  end
 end
