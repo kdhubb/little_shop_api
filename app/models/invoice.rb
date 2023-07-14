@@ -10,7 +10,7 @@ class Invoice < ApplicationRecord
   def self.most_expensive(limit = 5, sorting = "DESC")
     select("invoices.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
     .joins(:invoice_items, :transactions)
-    .merge(Transaction.successful)
+    .merge(Transaction.unscoped.successful)
     .group(:id)
     .order("revenue #{sorting}")
     .limit(limit)
