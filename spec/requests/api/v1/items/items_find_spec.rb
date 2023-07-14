@@ -13,38 +13,48 @@ RSpec.describe "Item Find/Search", type: :request do
   describe "find an item by fragment" do 
     it "case-insensitive, partial match" do 
       get "/api/v1/items/find?name=DoG"
-      @item_parsed = JSON.parse(response.body, symbolize_names: true)
+      item_parsed = JSON.parse(response.body, symbolize_names: true)
 
       expect(response.status).to eq(200)
-      expect(@item_parsed.count).to eq(1)
-      expect(@item_parsed[:data]).to be_a(Hash)
-      expect(@item_parsed[:data][:type]).to eq("item")
-      expect(@item_parsed[:data][:attributes][:name]).to eq(@item3.name)
-      expect(@item_parsed[:data][:attributes][:description]).to eq(@item3.description)
-      expect(@item_parsed[:data][:attributes][:unit_price]).to eq(@item3.unit_price)
-      expect(@item_parsed[:data][:attributes][:merchant_id]).to eq(@item3.merchant_id)
+      expect(item_parsed.count).to eq(1)
+      expect(item_parsed[:data]).to be_a(Hash)
+      expect(item_parsed[:data][:type]).to eq("item")
+      expect(item_parsed[:data][:attributes][:name]).to eq(@item3.name)
+      expect(item_parsed[:data][:attributes][:description]).to eq(@item3.description)
+      expect(item_parsed[:data][:attributes][:unit_price]).to eq(@item3.unit_price)
+      expect(item_parsed[:data][:attributes][:merchant_id]).to eq(@item3.merchant_id)
     end
 
     it "no params given, no match" do 
       get "/api/v1/items/find?name="
-      @item_parsed = JSON.parse(response.body, symbolize_names: true)
+      item_parsed = JSON.parse(response.body, symbolize_names: true)
       
       expect(response.code).to eq("400")
-      expect(@item_parsed[:errors].first).to be_a(Hash)
-      expect(@item_parsed[:errors].first[:status]).to eq("400")
-      expect(@item_parsed[:errors].first[:title]).to eq("No search paramater given")
+      expect(item_parsed[:errors].first).to be_a(Hash)
+      expect(item_parsed[:errors].first[:status]).to eq("400")
+      expect(item_parsed[:errors].first[:title]).to eq("No search paramater given")
       
       get "/api/v1/items/find?name=abcdefghi3927659hkhjg"
-      @item_parsed = JSON.parse(response.body, symbolize_names: true)
+      item_parsed = JSON.parse(response.body, symbolize_names: true)
       
       expect(response.code).to eq("200")
-      expect(@item_parsed).to eq({data: {}})
+      expect(item_parsed).to eq({data: {}})
     end
   end
-
+  
   describe "find all items by fragment" do 
     it "lists all partial matches" do 
-      get "/api/v1/items/find_all"
+      get "/api/v1/items/find_all?name=dog"
+      items_parsed = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response.code).to eq("200")
+      expect(items_parsed[:data]).to be_an(Array)
+      expect(items_parsed[:data].count).to eq(2)
+      expect(items_parsed[:data].first[:type]).to eq("item")
+      expect(items_parsed[:data].first[:attributes][:name]).to eq(@item3.name)
+      expect(items_parsed[:data].first[:attributes][:description]).to eq(@item3.description)
+      expect(items_parsed[:data].first[:attributes][:unit_price]).to eq(@item3.unit_price)
+      expect(items_parsed[:data].first[:attributes][:merchant_id]).to eq(@item3.merchant_id)
     end
     
     it "returns no error when no results" do 
@@ -53,11 +63,11 @@ RSpec.describe "Item Find/Search", type: :request do
     
     it "returns 400 with no paramater" do 
       get "/api/v1/items/find_all"
-      @items = JSON.parse(response.body, symbolize_names: true)
+      items = JSON.parse(response.body, symbolize_names: true)
 
       expect(response.code).to eq("400")
-      expect(@items[:errors].first[:status]).to eq("400")
-      expect(@items[:errors].first[:title]).to eq("No search paramater given")
+      expect(items[:errors].first[:status]).to eq("400")
+      expect(items[:errors].first[:title]).to eq("No search paramater given")
     end
   end
 end
